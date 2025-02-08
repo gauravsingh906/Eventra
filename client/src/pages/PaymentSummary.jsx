@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import toast from "react-hot-toast";
 import { CreditCard, Phone, Mail, User } from "lucide-react";
 import Qrcode from 'qrcode';
+import { Calendar, Lock } from "lucide-react";
 
 export default function PaymentSummary() {
   const { id } = useParams();
@@ -247,61 +248,78 @@ export default function PaymentSummary() {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Payment Details</h3>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="nameOnCard">Name on Card</Label>
-                    <Input
-                      id="nameOnCard"
-                      name="nameOnCard"
-                      value={formData.payment.nameOnCard}
-                      onChange={(e) => handleChange('payment', e)}
-                      className={errors.nameOnCard ? 'border-red-500' : ''}
-                    />
-                    {errors.nameOnCard && <p className="text-sm text-red-500">{errors.nameOnCard}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cardNumber">Card Number</Label>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="cardNumber"
-                        name="cardNumber"
-                        value={formData.payment.cardNumber}
-                        onChange={(e) => handleChange('payment', e)}
-                        className={`pl-10 ${errors.cardNumber ? 'border-red-500' : ''}`}
-                      />
-                    </div>
-                    {errors.cardNumber && <p className="text-sm text-red-500">{errors.cardNumber}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="expiryDate">Expiry Date</Label>
-                    <Input
-                      id="expiryDate"
-                      name="expiryDate"
-                      placeholder="MM/YY"
-                      value={formData.payment.expiryDate}
-                      onChange={(e) => handleChange('payment', e)}
-                      className={errors.expiryDate ? 'border-red-500' : ''}
-                    />
-                    {errors.expiryDate && <p className="text-sm text-red-500">{errors.expiryDate}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cvv">CVV</Label>
-                    <Input
-                      id="cvv"
-                      name="cvv"
-                      type="password"
-                      maxLength="3"
-                      value={formData.payment.cvv}
-                      onChange={(e) => handleChange('payment', e)}
-                      className={errors.cvv ? 'border-red-500' : ''}
-                    />
-                    {errors.cvv && <p className="text-sm text-red-500">{errors.cvv}</p>}
-                  </div>
-                </div>
-              </div>
+              <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg space-y-6 border border-gray-200 dark:border-gray-700">
+      <h3 className="text-2xl font-bold text-gray-800 dark:text-white text-center">Payment Details</h3>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Name on Card */}
+        <div className="space-y-2">
+          <Label htmlFor="nameOnCard" className="text-gray-700 dark:text-gray-300">Name on Card</Label>
+          <Input
+            id="nameOnCard"
+            name="nameOnCard"
+            value={formData.payment.nameOnCard}
+            onChange={(e) => handleChange('payment', e)}
+            placeholder="John Doe"
+            className={`rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.nameOnCard ? 'border-red-500' : ''}`}
+          />
+          {errors.nameOnCard && <p className="text-sm text-red-500">{errors.nameOnCard}</p>}
+        </div>
+
+        {/* Card Number */}
+        <div className="space-y-2">
+          <Label htmlFor="cardNumber" className="text-gray-700 dark:text-gray-300">Card Number</Label>
+          <div className="relative">
+            <CreditCard className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            <Input
+              id="cardNumber"
+              name="cardNumber"
+              value={formData.payment.cardNumber}
+              onChange={(e) => handleChange('payment', e)}
+              placeholder="1234 5678 9012 3456"
+              className={`pl-10 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.cardNumber ? 'border-red-500' : ''}`}
+            />
+          </div>
+          {errors.cardNumber && <p className="text-sm text-red-500">{errors.cardNumber}</p>}
+        </div>
+
+        {/* Expiry Date */}
+        <div className="space-y-2">
+          <Label htmlFor="expiryDate" className="text-gray-700 dark:text-gray-300">Expiry Date</Label>
+          <div className="relative">
+            <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            <Input
+              id="expiryDate"
+              name="expiryDate"
+              placeholder="MM/YY"
+              value={formData.payment.expiryDate}
+              onChange={(e) => handleChange('payment', e)}
+              className={`pl-10 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.expiryDate ? 'border-red-500' : ''}`}
+            />
+          </div>
+          {errors.expiryDate && <p className="text-sm text-red-500">{errors.expiryDate}</p>}
+        </div>
+
+        {/* CVV */}
+        <div className="space-y-2">
+          <Label htmlFor="cvv" className="text-gray-700 dark:text-gray-300">CVV</Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            <Input
+              id="cvv"
+              name="cvv"
+              type="password"
+              maxLength="3"
+              placeholder="•••"
+              value={formData.payment.cvv}
+              onChange={(e) => handleChange('payment', e)}
+              className={`pl-10 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.cvv ? 'border-red-500' : ''}`}
+            />
+          </div>
+          {errors.cvv && <p className="text-sm text-red-500">{errors.cvv}</p>}
+        </div>
+      </div>
+    </div>
             </CardContent>
           </Card>
         </div>
