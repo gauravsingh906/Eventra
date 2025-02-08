@@ -8,7 +8,7 @@ const TicketModel = require("./models/Ticket");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const cloudinary = require("cloudinary").v2;  // ✅ Import Cloudinary v2
+const cloudinary = require("cloudinary").v2;
 
 const app = express();
 
@@ -17,29 +17,57 @@ const jwtSecret = "bsbsfbrnsftentwnnwnwn";
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = ['https://go-gather.vercel.app'];
+const allowedOrigins = ['http://go-gather.vercel.app', 'http://localhost:5173'];
 
 app.use(cors({
   origin: allowedOrigins,
-  credentials: true, // Allow credentials
+  credentials: true,
 }));
-// ✅ Cloudinary Configuration
+
 cloudinary.config({
    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
    api_key: process.env.CLOUDINARY_API_KEY,
    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URL)
    .then(() => console.log("MongoDB connected"))
    .catch((err) => console.error("MongoDB connection error:", err));
 
-// ✅ Multer Memory Storage for Buffer Upload
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.get("/test", (req, res) => {
-   res.json("test ok");
+// Middleware for Route Protection
+const authenticateToken = (req, res, next) => {
+  const { token } = req.cookies;
+  if (!token) return res.status(401).json({ error: "Unauthorized" });
+
+  jwt.verify(token, jwtSecret, (err, userData) => {
+    if (err) return res.status(403).json({ error: "Forbidden" });
+    req.user = userData;
+    next();
+  });
+};
+
+app.get("/", (req, res) => {
+  res.json("Welcome to Eventra API");
+});
+
+app.get("/createEvent", async (req, res) => {
+   try {
+      const events = await Event.find();
+      res.status(200).json(events);
+   } catch (error) {
+      res.status(500).json({ error: "Failed to fetch events from MongoDB" });
+   }
+});
+
+
+// Apply authentication to all routes except '/' and '/createEvent'
+app.use((req, res, next) => {
+  if (req.path === '/' || req.path === '/createEvent') {
+    return next();
+  }
+  authenticateToken(req, res, next);
 });
 
 // User Registration
@@ -85,7 +113,7 @@ app.post("/login", async (req, res) => {
 });
 
 // User Profile
-app.get("/profile", (req, res) => {
+app.get("/profile", authenticateToken, (req, res) => {
    const { token } = req.cookies;
    if (token) {
       jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -99,7 +127,7 @@ app.get("/profile", (req, res) => {
 });
 
 // Logout
-app.post("/logout", (req, res) => {
+app.post("/logout", authenticateToken, (req, res) => {
    res.cookie("token", "").json(true);
 });
 
@@ -124,14 +152,11 @@ const eventSchema = new mongoose.Schema({
 
 const Event = mongoose.model("Event", eventSchema);
 
-
-// ✅ Event Creation Route (Fixed)
 app.post("/createEvent", upload.single("image"), async (req, res) => {
    try {
       const eventData = req.body;
 
       if (req.file) {
-         // ✅ Upload Image to Cloudinary
          const result = await new Promise((resolve, reject) => {
             const stream = cloudinary.uploader.upload_stream(
                { resource_type: "image" },
@@ -146,28 +171,17 @@ app.post("/createEvent", upload.single("image"), async (req, res) => {
             stream.end(req.file.buffer);
          });
 
-         eventData.image = result.secure_url; // ✅ Store Image URL
+         eventData.image = result.secure_url;
       } else {
          eventData.image = "";
       }
 
-      // ✅ Save Event to MongoDB
       const newEvent = new Event(eventData);
       await newEvent.save();
       res.status(201).json(newEvent);
    } catch (error) {
       console.error("Error:", error);
       res.status(500).json({ error: "Failed to create event" });
-   }
-});
-
-
-app.get("/createEvent", async (req, res) => {
-   try {
-      const events = await Event.find();
-      res.status(200).json(events);
-   } catch (error) {
-      res.status(500).json({ error: "Failed to fetch events from MongoDB" });
    }
 });
 

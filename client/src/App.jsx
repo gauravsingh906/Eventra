@@ -1,4 +1,6 @@
-/* eslint-disable no-unused-vars */
+
+// App.js Updates
+
 import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import IndexPage from './pages/IndexPage';
@@ -17,8 +19,9 @@ import OrderSummary from './pages/OrderSummary';
 import PaymentSummary from './pages/PaymentSummary';
 import TicketPage from './pages/TicketPage';
 import CreateEvent from './pages/CreateEvent';
+import PrivateRoute from './PrivateRoute';
 
-axios.defaults.baseURL = 'https://eventra-back.onrender.com/';
+axios.defaults.baseURL = 'https://eventra-back.onrender.com';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -27,17 +30,78 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<IndexPage />} />
-          <Route path='useraccount' element={<UserAccountPage />} />
-          <Route path='createEvent' element={<AddEvent />} />
-          <Route path='event/:id' element={<EventPage />} />
-          <Route path='create' element={<CreateEvent />} />
-          <Route path='calendar' element={<CalendarView />} />
-          <Route path='wallet' element={<TicketPage />} />
 
-          <Route path='event/:id/ordersummary' element={<OrderSummary />}>
-          
-          </Route>
-          <Route path='event/:id/ordersummary/paymentsummary' element={<PaymentSummary />} />
+          <Route
+            path='useraccount'
+            element={
+              <PrivateRoute>
+                <UserAccountPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='createEvent'
+            element={
+              <PrivateRoute>
+                <AddEvent />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='event/:id'
+            element={
+              <PrivateRoute>
+                <EventPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='create'
+            element={
+              <PrivateRoute>
+                <CreateEvent />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='calendar'
+            element={
+              <PrivateRoute>
+                <CalendarView />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='wallet'
+            element={
+              <PrivateRoute>
+                <TicketPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='event/:id/ordersummary'
+            element={
+              <PrivateRoute>
+                <OrderSummary />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='event/:id/ordersummary/paymentsummary'
+            element={
+              <PrivateRoute>
+                <PaymentSummary />
+              </PrivateRoute>
+            }
+          />
         </Route>
 
         <Route path='register' element={<RegisterPage />} />
