@@ -17,10 +17,10 @@ const jwtSecret = "bsbsfbrnsftentwnnwnwn";
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = ['https://go-gather.vercel.app'];
+const allowedOrigins = ['https://me-eventify.vercel.app'];
 
 app.use(cors({
-   origin: 'https://go-gather.vercel.app', // Allow only this domain
+   origin: 'https://me-eventify.vercel.app', // Allow only this domain
    credentials: true // Allow cookies if needed
  }));
 
