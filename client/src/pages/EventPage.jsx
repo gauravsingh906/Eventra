@@ -129,7 +129,7 @@ export default function EventPage() {
               <p className="text-gray-400">
                 {event.ticketPrice === 0
                   ? "Free"
-                  : `LKR. ${event.ticketPrice}`}
+                  : `$ ${event.ticketPrice}`}
               </p>
             </div>
           </div>
