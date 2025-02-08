@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-hot-toast";
-import { Loader2Icon} from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -57,7 +57,7 @@ export default function RegisterPage() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-      }, {withCredentials: true});
+      }, { withCredentials: true });
       toast.success("Registration successful. Please log in.");
       setRedirect(true);
     } catch (error) {
@@ -70,19 +70,19 @@ export default function RegisterPage() {
   if (redirect) return <Navigate to="/login" />;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 p-4">
+      <Card className="w-full max-w-md shadow-2xl rounded-2xl bg-white/90 backdrop-blur-md">
         <CardHeader className="space-y-1 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">Create Account</h2>
-          <p className="text-sm text-muted-foreground">
-            Enter your details to register
-          </p>
+          <h2 className="text-4xl font-extrabold tracking-tight text-blue-700">Create Account</h2>
+          <p className="text-sm text-gray-600">Enter your details to register</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {['name', 'email', 'password', 'confirmPassword'].map((field) => (
               <div className="space-y-2" key={field}>
-                <Label htmlFor={field}>{field === 'confirmPassword' ? 'Confirm Password' : field.charAt(0).toUpperCase() + field.slice(1)}</Label>
+                <Label htmlFor={field} className="text-blue-800">
+                  {field === 'confirmPassword' ? 'Confirm Password' : field.charAt(0).toUpperCase() + field.slice(1)}
+                </Label>
                 <Input
                   id={field}
                   name={field}
@@ -90,13 +90,13 @@ export default function RegisterPage() {
                   placeholder={field === 'email' ? 'john@example.com' : field === 'name' ? 'John Doe' : ''}
                   value={formData[field]}
                   onChange={handleChange}
-                  className={`${errors[field] ? "border-red-500 focus:ring-red-500" : ""}`}
+                  className={`rounded-lg ${errors[field] ? "border-red-500 focus:ring-red-500" : "focus:ring-blue-400"}`}
                 />
                 {errors[field] && <p className="text-sm text-red-500">{errors[field]}</p>}
               </div>
             ))}
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition-transform transform hover:scale-105" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
@@ -109,13 +109,13 @@ export default function RegisterPage() {
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-gray-600">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary hover:underline">
+            <Link to="/login" className="text-blue-600 hover:underline">
               Sign in
             </Link>
           </p>
-          <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
+          <Link to="/" className="text-sm text-gray-500 hover:text-blue-600">
             ← Back to Home
           </Link>
         </CardFooter>
