@@ -78,7 +78,6 @@ app.post("/register", async (req, res) => {
    }
 });
 
-// User Login
 app.post("/login", async (req, res) => {
    const { email, password } = req.body;
    const userDoc = await UserModel.findOne({ email });
@@ -92,15 +91,23 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid password" });
    }
 
+   // Set JWT to expire in 7 days
    jwt.sign(
       { email: userDoc.email, id: userDoc._id },
       jwtSecret,
-      {},
+      { expiresIn: '7d' }, // Token expires in 7 days
       (err, token) => {
          if (err) {
             return res.status(500).json({ error: "Failed to generate token" });
          }
-         res.cookie("token", token).json(userDoc);
+         
+         // Set the cookie with HttpOnly and Secure flags
+         res.cookie("token", token, {
+            httpOnly: true,       // Prevents client-side JS from accessing the cookie
+            secure: true,         // Ensures cookie is sent over HTTPS only
+            sameSite: 'None',     // Required for cross-site cookies (like Vercel <-> Render)
+            maxAge: 7 * 24 * 60 * 60 * 1000 // Cookie expires in 7 days (in milliseconds)
+         }).json({ message: "Login successful", user: userDoc });
       }
    );
 });
