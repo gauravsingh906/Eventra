@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Loader2Icon, Upload, Calendar, Clock, MapPin, DollarSign, Image as ImageIcon } from 'lucide-react';
+import { Loader2Icon, Calendar, Clock, MapPin, DollarSign, Image as ImageIcon } from 'lucide-react';
 
 export default function AddEvent() {
   const { user } = useContext(UserContext);

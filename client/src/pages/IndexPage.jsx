@@ -64,7 +64,7 @@ export default function IndexPage() {
         muted
         className="absolute inset-0 w-full h-full object-cover z-0"
       >
-        <source src="../src/assets/hero.mp4" type="video/mp4" />
+        <source src="https://res.cloudinary.com/dthjijenl/video/upload/v1739010930/notes_app/ddesjvjlexiukrpjluun.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
@@ -104,7 +104,7 @@ export default function IndexPage() {
           whileTap={{ scale: 0.95 }}
           className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition duration-300"
         >
-          Explore Events
+          Explore Events..
         </motion.button>
       </div>
     </section>
