@@ -54,7 +54,7 @@ export default function Header() {
             </div>
             <input 
               type="text" 
-              placeholder="Search" 
+              placeholder="Search events..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-full bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-400"
