@@ -56,7 +56,7 @@ export default function AddEvent() {
     });
 
     const submitPromise = axios.post('/createEvent', submissionData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' } ,withCredentials: true
     });
 
     toast.promise(submitPromise, {

@@ -57,7 +57,7 @@ export default function RegisterPage() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-      });
+      }, {withCredentials: true});
       toast.success("Registration successful. Please log in.");
       setRedirect(true);
     } catch (error) {
