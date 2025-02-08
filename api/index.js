@@ -64,7 +64,7 @@ app.get("/createEvent", async (req, res) => {
 
 // Apply authentication to all routes except '/' and '/createEvent'
 app.use((req, res, next) => {
-  if (req.path === '/' || req.path === '/createEvent') {
+  if (req.path === '/' || req.path === '/createEvent' || req.path === '/register' || req.path === '/login') {
     return next();
   }
   authenticateToken(req, res, next);
