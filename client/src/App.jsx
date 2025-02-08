@@ -70,9 +70,9 @@ function App() {
           <Route
             path='calendar'
             element={
-              <PrivateRoute>
+              
                 <CalendarView />
-              </PrivateRoute>
+             
             }
           />
 
