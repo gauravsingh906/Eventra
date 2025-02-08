@@ -38,15 +38,16 @@ export default function Header() {
   return (
     <header className="bg-gray-900 text-white py-4 px-6 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-      <Link to="/" className="flex items-center space-x-2">
-      <CalendarDays className="w-8 h-8 text-purple-500 drop-shadow-md" />
-      <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 tracking-wide drop-shadow-md">
-        Eventra
-      </div>
-    </Link>
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-2">
+          <CalendarDays className="w-8 h-8 text-purple-500 drop-shadow-md" />
+          <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 tracking-wide drop-shadow-md">
+            Eventra
+          </div>
+        </Link>
 
-        {/* Search Bar */}
-        <div className="flex-grow mx-8 max-w-xl">
+        {/* Search Bar (Visible in Mobile View) */}
+        <div className="flex-grow mx-4 md:mx-8 max-w-xl">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="text-gray-400 w-5 h-5" />
@@ -79,28 +80,35 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Navigation and User Actions */}
-        <div className="flex items-center space-x-6">
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link 
-              to="/createEvent" 
-              className="flex items-center text-gray-300 hover:text-purple-400 transition-colors text-sm font-medium"
-            >
-              <PlusCircle className="mr-2 w-5 h-5" />
-              Create Event
-            </Link>
-            <Link 
-              to="/calendar" 
-              className="flex items-center text-gray-300 hover:text-purple-400 transition-colors text-sm font-medium"
-            >
-              <Calendar className="mr-2 w-5 h-5" />
-              Calendar
-            </Link>
-            <button className="text-gray-300 hover:text-purple-400 transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-          </div>
+        {/* Hamburger Menu Toggle (Mobile Only) */}
+        <div className="md:hidden">
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-gray-300 hover:text-purple-400 transition-colors"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Desktop Navigation and User Actions */}
+        <div className="hidden md:flex items-center space-x-6">
+          <Link 
+            to="/createEvent" 
+            className="flex items-center text-gray-300 hover:text-purple-400 transition-colors text-sm font-medium"
+          >
+            <PlusCircle className="mr-2 w-5 h-5" />
+            Create Event
+          </Link>
+          <Link 
+            to="/calendar" 
+            className="flex items-center text-gray-300 hover:text-purple-400 transition-colors text-sm font-medium"
+          >
+            <Calendar className="mr-2 w-5 h-5" />
+            Calendar
+          </Link>
+          <button className="text-gray-300 hover:text-purple-400 transition-colors">
+            <Bell className="w-5 h-5" />
+          </button>
 
           {/* User Section */}
           {user ? (
@@ -146,16 +154,6 @@ export default function Header() {
               </Button>
             </Link>
           )}
-
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-300 hover:text-purple-400 transition-colors"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
         </div>
       </div>
 
@@ -175,6 +173,32 @@ export default function Header() {
             >
               <Calendar className="mr-4 w-5 h-5" /> Calendar
             </Link>
+            {user ? (
+              <>
+                <Link 
+                  to="/useraccount" 
+                  className="block py-2 border-b border-gray-800 flex items-center text-gray-300 hover:text-purple-400 transition-colors"
+                >
+                  <User className="mr-4 w-5 h-5" /> Account
+                </Link>
+                <Link 
+                  to="/wallet" 
+                  className="block py-2 border-b border-gray-800 flex items-center text-gray-300 hover:text-purple-400 transition-colors"
+                >
+                  <Wallet className="mr-4 w-5 h-5" /> Wallet
+                </Link>
+                <button 
+                  onClick={logout} 
+                  className="w-full text-left py-2 border-b border-gray-800 text-gray-300 hover:bg-red-600 transition-colors flex items-center"
+                >
+                  <LogOut className="mr-4 w-5 h-5" /> Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="block py-2 border-b border-gray-800 text-gray-300 hover:text-purple-400 transition-colors">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       )}

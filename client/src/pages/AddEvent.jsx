@@ -107,6 +107,19 @@ export default function AddEvent() {
                   placeholder="Enter event title"
                 />
               </div>
+              <div className="space-y-2">
+  <Label htmlFor="organizedBy" className="text-sm font-medium">Organized By</Label>
+  <InputField
+    icon={MapPin} // You can choose a different icon if you prefer
+    id="organizedBy"
+    name="organizedBy"
+    required
+    value={formData.organizedBy}
+    onChange={handleChange}
+    placeholder="Enter organizer's name"
+  />
+</div>
+
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
