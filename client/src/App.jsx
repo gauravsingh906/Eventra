@@ -18,7 +18,7 @@ import PaymentSummary from './pages/PaymentSummary';
 import TicketPage from './pages/TicketPage';
 import CreateEvent from './pages/CreateEvent';
 
-axios.defaults.baseURL = 'http://localhost:4000/';
+axios.defaults.baseURL = 'http://eventra-back.onrender.com/';
 axios.defaults.withCredentials = true;
 
 function App() {
