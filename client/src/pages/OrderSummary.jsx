@@ -87,12 +87,12 @@ export default function OrderSummary() {
           <CardContent className="space-y-6">
             <div className="flex justify-between items-center">
               <span className="text-sm">{event.title}</span>
-              <span className="font-medium">LKR. {event.ticketPrice}</span>
+              <span className="font-medium">$ {event.ticketPrice}</span>
             </div>
             <div className="border-t pt-4">
               <div className="flex justify-between items-center font-bold">
                 <span>TOTAL</span>
-                <span>LKR. {event.ticketPrice}</span>
+                <span>$ {event.ticketPrice}</span>
               </div>
             </div>
             <div className="flex items-start gap-2">

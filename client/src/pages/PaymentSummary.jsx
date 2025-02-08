@@ -410,14 +410,14 @@ export default function PaymentSummary() {
               </div>
               <div className="mt-4 flex justify-between items-center border-t border-gray-200 pt-4">
                 <span className="text-gray-600">1 Ticket</span>
-                <span className="font-semibold text-gray-800">$. {event.ticketPrice.toLocaleString()}</span>
+                <span className="font-semibold text-gray-800">$ {event.ticketPrice.toLocaleString()}</span>
               </div>
             </div>
             <div className="border-t border-gray-200 pt-4">
               <div className="flex justify-between items-center">
                 <span className="font-bold text-gray-800">Total</span>
                 <span className="font-bold text-lg text-blue-600">
-                  $. {event.ticketPrice.toLocaleString()}
+                  $ {event.ticketPrice.toLocaleString()}
                 </span>
               </div>
             </div>
@@ -449,7 +449,7 @@ export default function PaymentSummary() {
                   Processing...
                 </div>
               ) : (
-                `Pay $. ${event.ticketPrice.toLocaleString()}`
+                `Pay $ ${event.ticketPrice.toLocaleString()}`
               )}
             </Button>
           </CardFooter>
