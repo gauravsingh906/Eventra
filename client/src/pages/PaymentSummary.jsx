@@ -168,8 +168,12 @@ export default function PaymentSummary() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-        <Skeleton className="h-20 w-48 rounded-xl" />
+      <div className="min-h-screen bg-gray-100 p-6">
+        <Skeleton className="h-10 w-24 mb-8" />
+        <div className="flex flex-col lg:flex-row gap-6">
+          <Skeleton className="h-[600px] w-full lg:w-2/3" />
+          <Skeleton className="h-[400px] w-full lg:w-1/3" />
+        </div>
       </div>
     );
   }
@@ -177,67 +181,84 @@ export default function PaymentSummary() {
   if (!event) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 p-6">
+    <div className="min-h-screen bg-gray-50 p-6">
       <Link to={`/event/${event._id}/ordersummary`}>
-        <Button variant="outline" className="mb-6 flex items-center gap-2 hover:bg-gray-200">
+        <Button variant="outline" className="mb-8 flex items-center gap-2">
           <IoMdArrowBack className="w-5 h-5" /> Back
         </Button>
       </Link>
 
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="lg:w-2/3">
-          <Card className="shadow-xl rounded-2xl">
-            <CardHeader className="bg-blue-500 text-white rounded-t-2xl p-4">
-              <h2 className="text-xl font-bold text-center">Complete Your Purchase</h2>
+          <Card className="bg-white shadow-lg rounded-2xl p-6">
+            <CardHeader>
+              <h2 className="text-2xl font-bold text-center text-gray-800">Complete Your Purchase</h2>
             </CardHeader>
 
-            <CardContent className="p-6 space-y-6">
+            <CardContent className="space-y-6">
               <div className="grid gap-4 md:grid-cols-2">
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.details.name}
                     onChange={(e) => handleChange('details', e)}
-                    className={`rounded-xl focus:ring-2 focus:ring-blue-400 ${errors.name ? 'border-red-500' : ''}`}
+                    className={`rounded-md ${errors.name ? 'border-red-500' : ''}`}
                   />
+                  {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
                 </div>
-                <div>
+
+                <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     name="email"
+                    type="email"
                     value={formData.details.email}
                     onChange={(e) => handleChange('details', e)}
-                    className={`rounded-xl focus:ring-2 focus:ring-blue-400 ${errors.email ? 'border-red-500' : ''}`}
+                    className={`rounded-md ${errors.email ? 'border-red-500' : ''}`}
                   />
+                  {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                 </div>
               </div>
 
+              <div className="space-y-4">
+                <Label htmlFor="contactNo">Contact Number</Label>
+                <Input
+                  id="contactNo"
+                  name="contactNo"
+                  value={formData.details.contactNo}
+                  onChange={(e) => handleChange('details', e)}
+                  className={`rounded-md ${errors.contactNo ? 'border-red-500' : ''}`}
+                />
+                {errors.contactNo && <p className="text-sm text-red-500">{errors.contactNo}</p>}
+              </div>
+            </CardContent>
+
+            <CardFooter>
               <Button 
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-2 rounded-xl hover:from-indigo-500 hover:to-blue-500 transition"
                 onClick={createTicket}
-                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl py-3 hover:from-blue-600 hover:to-indigo-600"
                 disabled={isProcessing}
               >
                 {isProcessing ? "Processing..." : `Pay LKR. ${event.ticketPrice}`}
               </Button>
-            </CardContent>
+            </CardFooter>
           </Card>
         </div>
 
         <div className="lg:w-1/3">
-          <Card className="shadow-lg rounded-2xl">
-            <CardHeader className="bg-indigo-500 text-white rounded-t-2xl p-4 text-center">
-              <h2 className="text-lg font-semibold">Order Summary</h2>
+          <Card className="bg-gray-50 shadow-md rounded-xl p-4">
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Order Summary</h2>
             </CardHeader>
-
-            <CardContent className="p-4 space-y-3">
-              <div className="bg-white p-4 rounded-xl shadow-md">
-                <h3 className="font-bold text-gray-800">{event.title}</h3>
-                <p className="text-sm text-gray-500">{event.eventDate.split("T")[0]} - {event.eventTime}</p>
-                <p className="font-semibold mt-2">Price: LKR. {event.ticketPrice}</p>
-              </div>
+            <CardContent className="space-y-3">
+              <h3 className="font-bold">{event.title}</h3>
+              <p>{event.eventDate.split("T")[0]} | {event.eventTime}</p>
+              <p>1 Ticket - <strong>LKR. {event.ticketPrice}</strong></p>
+              <hr />
+              <p className="font-bold text-lg">Total: LKR. {event.ticketPrice}</p>
             </CardContent>
           </Card>
         </div>
