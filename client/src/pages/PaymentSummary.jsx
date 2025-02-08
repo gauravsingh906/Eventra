@@ -9,9 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import toast from "react-hot-toast";
-import { CreditCard, Phone, Mail, User } from "lucide-react";
+import { CreditCard, Phone, Mail, User, Calendar, Lock } from "lucide-react";
 import Qrcode from 'qrcode';
-import { Calendar, Lock } from "lucide-react";
 
 export default function PaymentSummary() {
   const { id } = useParams();
@@ -59,7 +58,7 @@ export default function PaymentSummary() {
       navigate('/');
       return;
     }
-    
+
     const fetchEventData = async () => {
       try {
         const response = await axios.get(`/event/${id}/ordersummary/paymentsummary`);
@@ -95,7 +94,7 @@ export default function PaymentSummary() {
     if (!formData.payment.cardNumber) newErrors.cardNumber = "Card number is required";
     if (!formData.payment.expiryDate) newErrors.expiryDate = "Expiry date is required";
     if (!formData.payment.cvv) newErrors.cvv = "CVV is required";
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -110,7 +109,6 @@ export default function PaymentSummary() {
       }
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -157,7 +155,7 @@ export default function PaymentSummary() {
       };
 
       await axios.post('/tickets', updatedTicketDetails);
-      
+
       toast.success("Payment successful! Your ticket has been created.");
       navigate('/wallet');
     } catch (error) {
@@ -170,12 +168,8 @@ export default function PaymentSummary() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-200 p-6">
-        <Skeleton className="h-10 w-24 mb-8" />
-        <div className="flex flex-col lg:flex-row gap-6">
-          <Skeleton className="h-[600px] w-full lg:w-2/3" />
-          <Skeleton className="h-[400px] w-full lg:w-1/3" />
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+        <Skeleton className="h-20 w-48 rounded-xl" />
       </div>
     );
   }
@@ -183,178 +177,68 @@ export default function PaymentSummary() {
   if (!event) return null;
 
   return (
-    <div className="min-h-screen bg-gray-200 p-6">
+    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 p-6">
       <Link to={`/event/${event._id}/ordersummary`}>
-        <Button variant="outline" className="mb-8 flex items-center gap-2">
+        <Button variant="outline" className="mb-6 flex items-center gap-2 hover:bg-gray-200">
           <IoMdArrowBack className="w-5 h-5" /> Back
         </Button>
       </Link>
 
-     
-
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="lg:w-2/3">
-          <Card>
-            <CardHeader>
-              <h2 className="text-2xl font-bold">Complete Your Purchase</h2>
+          <Card className="shadow-xl rounded-2xl">
+            <CardHeader className="bg-blue-500 text-white rounded-t-2xl p-4">
+              <h2 className="text-xl font-bold text-center">Complete Your Purchase</h2>
             </CardHeader>
-            <CardContent className="space-y-8">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Your Details</h3>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.details.name}
-                        onChange={(e) => handleChange('details', e)}
-                        className={`pl-10 ${errors.name ? 'border-red-500' : ''}`}
-                      />
-                    </div>
-                    {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.details.email}
-                        onChange={(e) => handleChange('details', e)}
-                        className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
-                      />
-                    </div>
-                    {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="contactNo">Contact Number</Label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="contactNo"
-                        name="contactNo"
-                        value={formData.details.contactNo}
-                        onChange={(e) => handleChange('details', e)}
-                        className={`pl-10 ${errors.contactNo ? 'border-red-500' : ''}`}
-                      />
-                    </div>
-                    {errors.contactNo && <p className="text-sm text-red-500">{errors.contactNo}</p>}
-                  </div>
+
+            <CardContent className="p-6 space-y-6">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.details.name}
+                    onChange={(e) => handleChange('details', e)}
+                    className={`rounded-xl focus:ring-2 focus:ring-blue-400 ${errors.name ? 'border-red-500' : ''}`}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    value={formData.details.email}
+                    onChange={(e) => handleChange('details', e)}
+                    className={`rounded-xl focus:ring-2 focus:ring-blue-400 ${errors.email ? 'border-red-500' : ''}`}
+                  />
                 </div>
               </div>
 
-              <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg space-y-6 border border-gray-200 dark:border-gray-700">
-      <h3 className="text-2xl font-bold text-gray-800 dark:text-white text-center">Payment Details</h3>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Name on Card */}
-        <div className="space-y-2">
-          <Label htmlFor="nameOnCard" className="text-gray-700 dark:text-gray-300">Name on Card</Label>
-          <Input
-            id="nameOnCard"
-            name="nameOnCard"
-            value={formData.payment.nameOnCard}
-            onChange={(e) => handleChange('payment', e)}
-            placeholder="John Doe"
-            className={`rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.nameOnCard ? 'border-red-500' : ''}`}
-          />
-          {errors.nameOnCard && <p className="text-sm text-red-500">{errors.nameOnCard}</p>}
-        </div>
-
-        {/* Card Number */}
-        <div className="space-y-2">
-          <Label htmlFor="cardNumber" className="text-gray-700 dark:text-gray-300">Card Number</Label>
-          <div className="relative">
-            <CreditCard className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <Input
-              id="cardNumber"
-              name="cardNumber"
-              value={formData.payment.cardNumber}
-              onChange={(e) => handleChange('payment', e)}
-              placeholder="1234 5678 9012 3456"
-              className={`pl-10 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.cardNumber ? 'border-red-500' : ''}`}
-            />
-          </div>
-          {errors.cardNumber && <p className="text-sm text-red-500">{errors.cardNumber}</p>}
-        </div>
-
-        {/* Expiry Date */}
-        <div className="space-y-2">
-          <Label htmlFor="expiryDate" className="text-gray-700 dark:text-gray-300">Expiry Date</Label>
-          <div className="relative">
-            <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <Input
-              id="expiryDate"
-              name="expiryDate"
-              placeholder="MM/YY"
-              value={formData.payment.expiryDate}
-              onChange={(e) => handleChange('payment', e)}
-              className={`pl-10 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.expiryDate ? 'border-red-500' : ''}`}
-            />
-          </div>
-          {errors.expiryDate && <p className="text-sm text-red-500">{errors.expiryDate}</p>}
-        </div>
-
-        {/* CVV */}
-        <div className="space-y-2">
-          <Label htmlFor="cvv" className="text-gray-700 dark:text-gray-300">CVV</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <Input
-              id="cvv"
-              name="cvv"
-              type="password"
-              maxLength="3"
-              placeholder="•••"
-              value={formData.payment.cvv}
-              onChange={(e) => handleChange('payment', e)}
-              className={`pl-10 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${errors.cvv ? 'border-red-500' : ''}`}
-            />
-          </div>
-          {errors.cvv && <p className="text-sm text-red-500">{errors.cvv}</p>}
-        </div>
-      </div>
-    </div>
+              <Button 
+                onClick={createTicket}
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl py-3 hover:from-blue-600 hover:to-indigo-600"
+                disabled={isProcessing}
+              >
+                {isProcessing ? "Processing..." : `Pay LKR. ${event.ticketPrice}`}
+              </Button>
             </CardContent>
           </Card>
         </div>
 
         <div className="lg:w-1/3">
-          <Card>
-            <CardHeader>
-              <h2 className="text-xl font-bold">Order Summary</h2>
+          <Card className="shadow-lg rounded-2xl">
+            <CardHeader className="bg-indigo-500 text-white rounded-t-2xl p-4 text-center">
+              <h2 className="text-lg font-semibold">Order Summary</h2>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg">{event.title}</h3>
-                <p className="text-sm text-gray-600">{event.eventDate.split("T")[0]}</p>
-                <p className="text-sm text-gray-600">{event.eventTime}</p>
-                <div className="mt-4 flex justify-between items-center">
-                  <span>1 Ticket</span>
-                  <span className="font-semibold">LKR. {event.ticketPrice}</span>
-                </div>
-              </div>
-              <div className="border-t pt-4">
-                <div className="flex justify-between items-center font-bold">
-                  <span>Total</span>
-                  <span>LKR. {event.ticketPrice}</span>
-                </div>
+
+            <CardContent className="p-4 space-y-3">
+              <div className="bg-white p-4 rounded-xl shadow-md">
+                <h3 className="font-bold text-gray-800">{event.title}</h3>
+                <p className="text-sm text-gray-500">{event.eventDate.split("T")[0]} - {event.eventTime}</p>
+                <p className="font-semibold mt-2">Price: LKR. {event.ticketPrice}</p>
               </div>
             </CardContent>
-            <CardFooter>
-              <Button 
-                className="w-full" 
-                onClick={createTicket}
-                disabled={isProcessing}
-              >
-                {isProcessing ? "Processing..." : `Pay LKR. ${event.ticketPrice}`}
-              </Button>
-            </CardFooter>
           </Card>
         </div>
       </div>
