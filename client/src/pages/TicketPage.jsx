@@ -151,7 +151,7 @@ export default function TicketPage() {
                 <p><strong>Time:</strong> {selectedTicket.ticketDetails.eventtime}</p>
                 <p><strong>Name:</strong> {selectedTicket.ticketDetails.name}</p>
                 <p><strong>Email:</strong> {selectedTicket.ticketDetails.email}</p>
-                <p><strong>Price:</strong> Rs. {selectedTicket.ticketDetails.ticketprice}</p>
+                <p><strong>Price:</strong> $ {selectedTicket.ticketDetails.ticketprice}</p>
                 <p><strong>Ticket ID:</strong> {selectedTicket._id}</p>
               </div>
               <DialogClose asChild>
