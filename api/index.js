@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(
    cors({
       credentials: true,
-      origin: "https://go-gather.vercel.app/",
+      origin: "*",
    })
 );
 
