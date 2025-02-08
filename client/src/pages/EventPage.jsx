@@ -64,12 +64,6 @@ export default function EventPage() {
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
-       
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Event Details Card */}
         <div className="absolute bottom-0 left-10">
           <motion.h1
             className="text-4xl md:text-6xl font-extrabold"
@@ -80,6 +74,11 @@ export default function EventPage() {
             {event.title.toUpperCase()}
           </motion.h1>
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        {/* Event Details Card */}
         <motion.div
           className="bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-gray-700/50"
           initial={{ opacity: 0, y: 20 }}
