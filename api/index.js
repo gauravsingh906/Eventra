@@ -20,9 +20,9 @@ app.use(cookieParser());
 const allowedOrigins = ['https://go-gather.vercel.app'];
 
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
+   origin: 'https://go-gather.vercel.app', // Allow only this domain
+   credentials: true // Allow cookies if needed
+ }));
 
 cloudinary.config({
    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
