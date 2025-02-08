@@ -41,7 +41,7 @@ export default function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           <CalendarDays className="w-8 h-8 text-purple-500 drop-shadow-md" />
-          <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 tracking-wide drop-shadow-md">
+          <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 tracking-wide drop-shadow-md" style={{ fontFamily: 'Pacifico, cursive' }}>
             Eventra
           </div>
         </Link>
