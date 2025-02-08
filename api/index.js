@@ -17,7 +17,7 @@ const jwtSecret = "bsbsfbrnsftentwnnwnwn";
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = ['https://go-gather.vercel.app', 'http://localhost:5173'];
+const allowedOrigins = ['https://go-gather.vercel.app'];
 
 app.use(cors({
   origin: allowedOrigins,
