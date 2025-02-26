@@ -159,8 +159,9 @@ export default function PaymentSummary() {
 
       await axios.post('/tickets', updatedTicketDetails);
       
-      toast.success("Payment successful! Your ticket has been created.");
-      navigate('/wallet');
+toast.success("Payment successful! Your ticket has been created.");
+window.location.href = 'https://buy.stripe.com/test_dR6cQEfOK9nB8rS9AC';
+
     } catch (error) {
       console.error("Payment error:", error);
       toast.error(error.response?.data?.message || "Payment failed. Please try again.");
